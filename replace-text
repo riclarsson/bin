@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov  3 11:20:23 2022
+
+@author: richard
+"""
+
+import os
+import argparse
+
+parser = argparse.ArgumentParser(
+                    prog = 'replace-text',
+                    description = 'Replaces text in files')
+
+parser.add_argument("filenames", metavar="files", type=str,
+                    nargs='+', help="A list of files")
+parser.add_argument("-i", "--input", type=str, required=True, help="Text in files to be replaced")
+parser.add_argument("-o", "--output", type=str, required=True, help="Text with which the input is replaced")
+
+args = parser.parse_args()
+
+for file in args.filenames:
+    if os.path.isfile(file):
+        with open(file, 'r') as fn:
+            filetext = fn.read()
+        
+        filetext = filetext.replace(args.input, args.output)
+        
+        with open(file, 'w') as fn:
+            fn.write(filetext)
